@@ -1,0 +1,84 @@
+{% extends "users/menu.html" %}
+{% block content %}
+
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-12 grid-margin stretch-card">
+
+      <div class="card">
+        <div class="card-body">
+          {% if messages %}
+          <div class="success-message">
+            {% for message in messages %}
+            <div class="alert alert-icon alert-info col-lg-12"
+              style="margin-left : 1%; margin-top : 1%; text-align: center;" role="alert">
+              <em class="icon ni ni-alert-circle"></em>
+              <strong>{{message}}</strong>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          <h4 class="card-title">Ajout commande</h4>
+          <form class="forms-sample" method="post" action="{% url 'add_commande' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="produit_id" id="produit_id" value="{{ produit_id }}">
+            <input type="hidden" name="user_id" id="user_id" value="{{ request.session.user_id}}">
+            <div class="form-group">
+              <label for="nom">Nom du produit</label>
+              <input type="text" class="form-control" name="nom" id="nom" placeholder="" readonly />
+            </div>
+            <div class="form-group">
+              <label for="prix">Prix Unitaire</label>
+              <input type="text" class="form-control" id="prix" name="prix" placeholder="" readonly />
+            </div>
+            <div class="form-group">
+              <label for="exampleSelectGender">Quantité</label>
+              <input type="number" min="1" class="form-control" id="quantite" name="quantite" placeholder="" />
+            </div>
+            <div class="form-group">
+              <label for="exampleSelectGender">Heure de livraison</label>
+              <input type="text" class="form-control" id="heure" name="heure" placeholder="" />
+            </div>
+            <div class="form-group">
+              <label for="exampleTextarea1">Adresse de livraison</label>
+              <textarea class="form-control" name="adresse" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success mr-2"> Valider </button>
+            <a href="{% url 'user_dashboard' %}" class="btn btn-danger">Annuler</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Fonction pour récupérer les paramètres de l'URL
+  function getParameterByName(name) {
+    let urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+  }
+
+  // Fonction d'initialisation
+  function init() {
+    var produitId = getParameterByName('id'); // Récupérer l'ID du produit
+    var produit = getParameterByName('nom'); // Récupérer le nom du produit
+    var prix = getParameterByName('prix'); // Récupérer le prix du produit
+
+    if (produitId) {
+      document.getElementById('produit_id').value = produitId; // Stocker l'ID du produit
+    }
+    if (produit) {
+      document.getElementById('nom').value = produit; // Remplir le champ nom
+    }
+    if (prix) {
+      document.getElementById('prix').value = prix; // Remplir le champ prix
+    }
+  }
+
+  // Exécuter la fonction après le chargement de la page
+  window.onload = init;
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "users/menu.html" %}
+
+{% block content %}
+
+<style>
+  .product-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+</style>
+<div class="container-fluid page-body-wrapper ">
+  <div class="main-panel alert-primary">
+    <div class="main-panel">
+      <div class="content-wrapper pb-0">
+        <div class="row">
+          {% for produit in produits %}
+          <div class="col-sm-4 stretch-card grid-margin">
+            <div class="card">
+              <div class="card-body p-0">
+                <img class="product-image img-fluid w-100" src="/rapido_app/media/{{ produit.image }}"
+                  alt="{{ produit.nom }}" style="width: 400px; height: 250px; object-fit: cover;" />
+              </div>
+              <div class="card-body px-3 text-dark">
+                <h5 class="font-weight-semibold" style="font-weight: bold; font-family: cursive;">{{ produit.nom }}
+                </h5>
+                <input type="hidden" name="produit_id" id="produit_id" value="{{ produit.id }}">
+                <div class="d-flex justify-content-between font-weight-semibold">
+                  <p class="mb-0">
+                    {{ produit.prix }}
+                  </p>
+                  <a href="javascript:void(0);" onclick="redirectToCommande('{{ produit.id }}', '{{ produit.nom }}', '{{ produit.prix }}')"
+                    type="submit" class="btn btn-success btn-rounded btn-fw"> Commander </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% empty %}
+          <tr>
+            <td colspan="5" style="text-align: center; color: red; font-style: italic;">Aucun produit
+              enregistré
+            </td>
+          </tr>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script>
+  function redirectToCommande(produitID, nomProduit, prixProduit) {
+    window.location.href = "{% url 'form_commande' %}?id=" + encodeURIComponent(produitID) + "&nom=" + encodeURIComponent(nomProduit) + "&prix=" + encodeURIComponent(prixProduit);
+  }
+</script>
+
+{% endblock %}

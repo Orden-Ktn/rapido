@@ -1,0 +1,50 @@
+{% extends "users/menu.html" %}
+
+{% block content %}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+   
+    <div class="row">
+     
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Mon panier</h4>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID Commande</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for commande in commandes %}
+                  <tr>
+                      <td>{{ commande.id }}</td>
+                      <td>{{ commande.produit.nom }}</td>
+                      <td>{{ commande.quantite }}</td>
+                      <td>{{ commande.statut}}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                      <td colspan="4" style="text-align: center; color: red; font-style: italic;">
+                          Aucune commande
+                          en votre nom  
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  {% endblock %}
